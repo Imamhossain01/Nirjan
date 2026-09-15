@@ -1,0 +1,374 @@
+/* ==========================================================================
+   Sthir — Luxury Landscape Design System (Refined Gold & Micro-interactions)
+   ========================================================================== */
+
+:root{
+  --bg-0: #010503;
+  --bg-1: #040e09;
+  --bg-2: #081710;
+  --emerald-bright: #38b070;
+  
+  /* Accurate Rose & Champagne Gold Palette */
+  --gold: #ffbd87;
+  --gold-light: #ffd991;
+  --gold-glow: rgba(226, 188, 157, 0.25);
+
+  --ivory: #f7f4ed;
+  --sage: #9ec2ad;
+  --sage-dim: #5c7d6b;
+  --glass: rgba(235, 245, 239, 0.035);
+  --glass-strong: rgba(235, 245, 239, 0.075);
+  --hairline: rgba(226, 188, 157, 0.2);
+
+  --radius-l: 28px;
+  --radius-m: 16px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--ivory);
+  background:
+    radial-gradient(120% 100% at 50% -20%, #0a2617 0%, var(--bg-1) 50%, var(--bg-0) 100%);
+  overflow: hidden;
+}
+
+/* Ambient glow */
+.field{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.glow{
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.45;
+}
+
+.glow-emerald{
+  width: 45vw; height: 45vw;
+  top: -10%; left: -10%;
+  background: radial-gradient(circle, rgba(56,176,112,0.25), transparent 70%);
+}
+
+.glow-gold{
+  width: 40vw; height: 40vw;
+  bottom: -10%; right: -10%;
+  background: radial-gradient(circle, rgba(226,188,157,0.18), transparent 70%);
+}
+
+/* Landscape Master Panel */
+.landscape-panel{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  width: 100%;
+  max-width: 960px;
+  padding: 32px;
+  border-radius: var(--radius-l);
+  background: linear-gradient(135deg, rgba(14,32,23,0.75), rgba(5,13,9,0.88));
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  box-shadow:
+    0 40px 90px -20px rgba(0,0,0,0.8),
+    0 1px 0 rgba(255,255,255,0.06) inset;
+}
+
+/* Left Section */
+.panel-left{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding-right: 24px;
+  border-right: 1px solid var(--hairline);
+}
+
+.brand{
+  margin-top: 10px;
+}
+
+.wordmark{
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-weight: 450;
+  font-style: italic;
+  font-size: 2.8rem;
+  letter-spacing: 0.02em;
+  background: linear-gradient(180deg, var(--ivory) 20%, var(--gold) 140%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline{
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--sage);
+  line-height: 1.4;
+}
+
+/* Master Control */
+.master{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.master-dial{
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 25%, #1a4a32, #08160f 80%);
+  box-shadow:
+    0 12px 24px -6px rgba(0,0,0,0.6),
+    0 0 0 1px var(--hairline),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.master-dial:hover{ transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 28px -6px rgba(0,0,0,0.7), 0 0 20px var(--gold-glow); }
+.master-dial:active{ transform: translateY(0) scale(0.97); }
+
+.master-icon{
+  width: 22px;
+  height: 22px;
+  color: var(--gold);
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s var(--ease);
+}
+
+.master-ring{
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  opacity: 0;
+}
+
+.master-dial.active .master-icon{ color: var(--emerald-bright); }
+.master-dial.active .ring-1,
+.master-dial.active .ring-2{
+  opacity: 1;
+  animation: pulse-ring 2.4s var(--ease) infinite;
+  border-color: rgba(56,176,112,0.6);
+}
+.master-dial.active .ring-2{ animation-delay: 0.8s; }
+
+@keyframes pulse-ring{
+  0%{ transform: scale(1); opacity: 0.6; }
+  100%{ transform: scale(1.5); opacity: 0; }
+}
+
+.master-label{
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--sage-dim);
+}
+
+/* Right Grid Section */
+.landscape-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Card Hover Lift Effect */
+.card{
+  position: relative;
+  padding: 12px 14px;
+  border-radius: var(--radius-m);
+  background: var(--glass);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), background 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.card:hover{
+  transform: translateY(-4px);
+  background: var(--glass-strong);
+  border-color: rgba(226, 188, 157, 0.35);
+  box-shadow: 0 12px 25px -8px rgba(0,0,0,0.5), 0 0 15px var(--gold-glow);
+}
+
+.card.active{
+  border-color: rgba(56,176,112,0.5);
+  box-shadow: 0 8px 25px -6px rgba(56,176,112,0.2);
+}
+
+/* Water Ripple Animation */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(226, 188, 157, 0.3);
+  transform: scale(0);
+  animation: ripple-effect 0.5s linear;
+  pointer-events: none;
+  z-index: 5;
+}
+@keyframes ripple-effect {
+  to { transform: scale(4); opacity: 0; }
+}
+
+.card-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.icon{
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: rgba(255,255,255,0.04);
+  color: var(--sage);
+}
+.icon svg{ width: 16px; height: 16px; }
+
+.card.active .icon{
+  color: var(--gold);
+  background: rgba(226, 188, 157, 0.12);
+}
+
+.titles{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.name{
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ivory);
+}
+
+.bn{
+  font-size: 0.7rem;
+  color: var(--sage-dim);
+}
+
+/* Toggle Switch */
+.toggle{
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  background: rgba(0,0,0,0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle-dot{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage-dim);
+  transition: background 0.3s;
+}
+
+.toggle[aria-pressed="true"]{
+  border-color: rgba(56,176,112,0.6);
+  background: rgba(56,176,112,0.15);
+}
+.toggle[aria-pressed="true"] .toggle-dot{
+  background: var(--emerald-bright);
+  box-shadow: 0 0 8px rgba(56,176,112,0.9);
+}
+
+.wave{
+  width: 100%;
+  height: 28px;
+  display: block;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+/* Luxury Slider */
+.slider-row{ display: flex; align-items: center; }
+
+.slider{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold) var(--fill, 50%), rgba(255,255,255,0.1) var(--fill, 50%), rgba(255,255,255,0.1) 100%);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ivory);
+  border: 2px solid var(--gold);
+  cursor: pointer;
+}
+
+/* Background Liquid Water Reflector Canvas */
+#waterCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  filter: contrast(120%) brightness(110%);
+}
+
+/* Footer */
+.foot p{
+  margin: 0;
+  font-size: 0.68rem;
+  color: var(--sage-dim);
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px){
+  body{ overflow-y: auto; padding: 16px; }
+  .landscape-panel{ grid-template-columns: 1fr; gap: 20px; }
+  .panel-left{ padding-right: 0; border-right: none; border-bottom: 1px solid var(--hairline); padding-bottom: 20px; }
+  .landscape-grid{ grid-template-columns: 1fr; }
+}
